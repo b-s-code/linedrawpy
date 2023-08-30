@@ -2,6 +2,8 @@
 
 Python port of my C++ graphics program [`LineDraw`](https://github.com/b-s-code/linedraw), with added support for coloured edges.
 
+![image](examples/output/oval_sticks.png)
+
 # Usage
 
 `python3 src/main.py examples/edges.txt > examples/output/edges.ppm`
