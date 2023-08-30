@@ -28,13 +28,15 @@ def add_edge(image: list[list[str]], edge: list[str], translation_x, translation
     with the line segment from (x_1, y_1) to (x_2, y_2)
     added to the image, in the given colour.
     """
-    x_1, y_1, x_2, y_2, colour = int(float(edge[0])), int(float(edge[1])), int(float(edge[2])), int(float(edge[3])), hex_str_colour_to_dec_str_colour(edge[4])
-
-    x_1 += translation_x
-    x_2 += translation_x
-    y_1 += translation_y
-    y_2 += translation_y
+    x_1 = int(float(edge[0])) + translation_x
+    x_2 = int(float(edge[2])) + translation_x
     
+    # Mulitply by -1 to orient output for humans, not machines.
+    y_1 = -1 * int(float(edge[1])) - translation_y
+    y_2 = -1 * int(float(edge[3])) - translation_y
+    
+    colour = hex_str_colour_to_dec_str_colour(edge[4])
+
     # Use digital differential analyzer algorithm.
 
     dx = x_2 - x_1
