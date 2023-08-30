@@ -20,7 +20,7 @@ def create_image(width: int, height: int, bgcolour_hex_str: str) -> list[list[in
     colour_decimal_str = hex_str_colour_to_dec_str_colour(bgcolour_hex_str)
     return [[colour_decimal_str for col_num in range(width)] for row_num in range(height)]
 
-def add_edge(image: list[list[str]], edge: list[str]) -> list[list[int]]:
+def add_edge(image: list[list[str]], edge: list[str], translation_x, translation_y) -> list[list[int]]:
     """
     Takes in a 2x2 matrix of colour components and a coloured line
     segment, encoded as ["<x_1>", "<y_1>", "<x_2>", "<y_2> ", "<colour>"].
@@ -30,6 +30,11 @@ def add_edge(image: list[list[str]], edge: list[str]) -> list[list[int]]:
     """
     x_1, y_1, x_2, y_2, colour = int(float(edge[0])), int(float(edge[1])), int(float(edge[2])), int(float(edge[3])), hex_str_colour_to_dec_str_colour(edge[4])
 
+    x_1 += translation_x
+    x_2 += translation_x
+    y_1 += translation_y
+    y_2 += translation_y
+    
     # Use digital differential analyzer algorithm.
 
     dx = x_2 - x_1

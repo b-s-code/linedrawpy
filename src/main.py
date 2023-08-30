@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
     img = linedrawpy.create_image(canvas_width, canvas_height, bgcolour)
     for edge in edge_parts:
-        img = linedrawpy.add_edge(img, edge)
+        img = linedrawpy.add_edge(img, edge, translation_x, translation_y)
     
     # Output the image.
     linedrawpy.print_image(img, canvas_width, canvas_height)
