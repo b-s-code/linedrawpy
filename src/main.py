@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # E.g. the line
     #     5 , 25, 400 , 400 , ff0077
     # defines a purple-red line from (5, 25) to (400, 400).
-    valid_edge_regex = re.compile("\d{1,}\.{0,1}\d*,\d{1,}\.{0,1}\d*,\d{1,}\.{0,1}\d*,\d{1,}\.{0,1}\d*,[0-9A-Fa-f]{6}")
+    valid_edge_regex = re.compile("[-\d]{1,}\.{0,1}\d*,[-\d]{1,}\.{0,1}\d*,[-\d]{1,}\.{0,1}\d*,[-\d]{1,}\.{0,1}\d*,[0-9A-Fa-f]{6}")
     line_is_valid_edge = lambda line : valid_edge_regex.fullmatch(line) != None
     for i, line in enumerate(lines):
         if not line_is_valid_edge(line):
