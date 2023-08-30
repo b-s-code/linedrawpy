@@ -5,7 +5,7 @@ import linedrawpy
 
 # Params.
 padding = 10 # pixels
-bgcolour = "eeeeee" # hex rep
+bgcolour = "222255" # hex rep
 
 if __name__ == "__main__":
     # Get input from file or standard input, storing
