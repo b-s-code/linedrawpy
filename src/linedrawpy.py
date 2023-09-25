@@ -43,6 +43,8 @@ def add_edge(image: list[list[str]], edge: list[str], translation_x, translation
     dy = y_2 - y_1
 
     step = abs(dy) if abs(dy) > abs(dx) else abs(dx)
+    if step == 0:
+        return image
     dx /= step
     dy /= step
     x = x_1
