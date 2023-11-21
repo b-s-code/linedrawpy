@@ -7,18 +7,10 @@ import linedrawpy
 padding = 10 # pixels
 bgcolour = "222255" # hex rep
 
-if __name__ == "__main__":
-    # Get input from file or standard input, storing
-    # whitespace-stripped lines of input in a list.
-    if len(sys.argv) > 1:
-        f = open(sys.argv[1])
-    else:
-        f = sys.stdin
+def compile_lines(input_lines):
+    # Strip trailing newlines.  Strip all spaces. 
     # TODO : consider supporting parentheses in input, stripping them here.
-    lines = [line.replace(' ', '').rstrip() for line in fileinput.input()]
-
-    # Check validity of params.
-    # TODO : only need to check bgcolour.
+    lines = [line.replace(' ', '').rstrip() for line in input_lines]
 
     # Check validity of input.    
     # Here we support colours represented as 6 hex digits.
@@ -56,3 +48,10 @@ if __name__ == "__main__":
     
     # Output the image.
     linedrawpy.print_image(img, canvas_width, canvas_height)
+
+if __name__ == "__main__":
+    # Check validity of params.
+    # TODO : only need to check bgcolour.
+    input_lines = fileinput.input()
+    # Get input from file or standard input
+    compile_lines(input_lines)
