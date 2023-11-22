@@ -36,7 +36,25 @@ class TestRegressions(unittest.TestCase):
         Checks linedrawpy can operate on input provided
         via standard input.
         """
+
+        # Run pylinedraw without importing its code here. 
+        # Want to mimic how it would behave if run by a user in a shell.
+        edges = subprocess.run(
+                [
+                    "cat",
+                    f"{self.test_script_dir}/../examples/edges.txt"
+                ],
+                capture_output=True)
+        with open(f"{self.test_data_dir}/edges.ppm", "w") as edges_ppm:
+           subprocess.run(
+                    [f"{self.test_script_dir}/main.py"],
+                    input=edges.stdout,
+                    stdout=edges_ppm)
+
+        # Output has been produced, so now we can
+        # just compare it to expeced output.
         # TODO
+
         pass
     
     def test_triangle_file(self):
