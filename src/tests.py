@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 import os
 import sys
-import unittest
 import subprocess
+import glob
+import unittest
 import linedrawpy
 import main
 
@@ -28,7 +29,15 @@ class TestRegressions(unittest.TestCase):
 
         # Prefer this to rm -rf, given there will be no subdirs
         # to deal with.
-        subprocess.run(["rm", f"{cls.test_data_dir}/*"])
+
+        # A literal * character gets passed to OS if we use
+        # a subprocess.run(["rm", f"{cls.test_data_dir}/*"])
+        # since the subprocess module does not use a shell by
+        # default.  We use glob to solve this.
+        files_to_remove = glob.glob(f"{cls.test_data_dir}/*")
+        for deletee in files_to_remove:
+            subprocess.run(["rm", deletee])
+
         subprocess.run(["rmdir", cls.test_data_dir])
 
     def test_triangle_pipe(self):
@@ -37,8 +46,8 @@ class TestRegressions(unittest.TestCase):
         via standard input.
         """
 
-        # Run pylinedraw without importing its code here. 
-        # Want to mimic how it would behave if run by a user in a shell.
+        # Run pylinedraw _without_ importing its code here. 
+        # Closer to actual usage scenario.
         edges = subprocess.run(
                 [
                     "cat",
