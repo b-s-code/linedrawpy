@@ -14,10 +14,12 @@ class TestRegressions(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        print("Creating temp test data directory.")
         subprocess.run(["mkdir", "../test_data"])
     
     @classmethod
-    def setUpClass(cls):
+    def tearDownClass(cls):
+        print("Removing temp test data directory.")
         subprocess.run(["rm", "-rf", "../test_data"])
 
     def test_triangle_pipe(self):
