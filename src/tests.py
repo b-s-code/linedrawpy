@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+import os
+import sys
 import unittest
 import subprocess
 import linedrawpy
@@ -8,19 +10,26 @@ class TestRegressions(unittest.TestCase):
     """
     We compare PPM files.  Not PNG files.
     linedrawpy is under test.
-    Not any image conversion program.
+    I.e. we're not testing any other image conversion program.
     So we just test the output of linedrawpy.
     """
+    
+    test_script_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
+    test_data_dir = f"{test_script_dir}/test_data"
 
     @classmethod
     def setUpClass(cls):
-        print("Creating temp test data directory.")
-        subprocess.run(["mkdir", "../test_data"])
+        print(f"Creating temp test data dir: {cls.test_data_dir}")
+        subprocess.run(["mkdir", cls.test_data_dir])
     
     @classmethod
     def tearDownClass(cls):
-        print("Removing temp test data directory.")
-        subprocess.run(["rm", "-rf", "../test_data"])
+        print(f"Removing temp test data dir: {cls.test_data_dir}")
+
+        # Prefer this to rm -rf, given there will be no subdirs
+        # to deal with.
+        subprocess.run(["rm", f"{cls.test_data_dir}/*"])
+        subprocess.run(["rmdir", cls.test_data_dir])
 
     def test_triangle_pipe(self):
         """
