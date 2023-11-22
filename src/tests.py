@@ -61,10 +61,17 @@ class TestRegressions(unittest.TestCase):
                     stdout=edges_ppm)
 
         # Output has been produced, so now we can
-        # just compare it to expeced output.
-        # TODO
+        # just compare it to expected output.
+        # There are possibly faster ways to do this.
+        edges_ppm_expected = []
+        edges_ppm_actual = []
+        with open(f"{self.test_data_dir}/edges.ppm", "r") as edges_ppm:
+            edges_ppm_actual = edges_ppm.readlines()
+        with open(f"{self.test_data_dir}/../../examples/output/edges.ppm", "r") as edges_ppm:
+            edges_ppm_expected = edges_ppm.readlines()
 
-        pass
+        # TODO : this fails due to background color difference.
+        self.assertTrue(edges_ppm_actual == edges_ppm_expected)
     
     def test_triangle_file(self):
         """
