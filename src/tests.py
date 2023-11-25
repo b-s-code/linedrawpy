@@ -45,7 +45,6 @@ class TestRegressions(unittest.TestCase):
         Checks linedrawpy can operate on input provided
         via standard input.
         """
-
         # Run pylinedraw _without_ importing its code here. 
         # Closer to actual usage scenario.
         edges = subprocess.run(
@@ -117,8 +116,32 @@ class TestRegressions(unittest.TestCase):
         edges correctly.  I.e. last edge is closest
         to top of image.
         """
-        # TODO
-        pass
+        # Run pylinedraw _without_ importing its code here. 
+        # Closer to actual usage scenario.
+        layered_edges = subprocess.run(
+                [
+                    "cat",
+                    f"{self.test_script_dir}/../examples/layered_edges.txt"
+                ],
+                capture_output=True)
+        with open(f"{self.test_data_dir}/layered_edges.ppm", "w") as layered_edges_ppm:
+           subprocess.run(
+                    [f"{self.test_script_dir}/main.py"],
+                    input=layered_edges.stdout,
+                    stdout=layered_edges_ppm)
+
+        # Output has been produced, so now we can
+        # just compare it to expected output.
+        # There are definitely faster ways to do this.
+        layered_edges_ppm_expected = []
+        layered_edges_ppm_actual = []
+        with open(f"{self.test_data_dir}/layered_edges.ppm", "r") as layered_edges_ppm:
+            layered_edges_ppm_actual = layered_edges_ppm.readlines()
+        with open(f"{self.test_data_dir}/../../examples/output/layered_edges.ppm", "r") as layered_edges_ppm:
+            layered_edges_ppm_expected = layered_edges_ppm.readlines()
+
+        self.assertTrue(layered_edges_ppm_actual == layered_edges_ppm_expected)
+        
 
 if __name__ == "__main__":
     unittest.main()
