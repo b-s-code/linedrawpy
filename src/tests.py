@@ -111,14 +111,6 @@ class TestRegressions(unittest.TestCase):
         # TODO
         pass
 
-    def test_sin_segments(self):
-        """
-        Tests linedrawpy can produce an image from a
-        nontrivial edge set.
-        """
-        # TODO
-        pass
-
     def test_layering(self):
         """
         Tests linedrawpy treats ordering of input
