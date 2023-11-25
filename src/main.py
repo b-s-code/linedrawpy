@@ -6,7 +6,7 @@ import linedrawpy
 
 # Params.
 padding = 10 # pixels
-bgcolour = "222255" # hex rep
+bgcolour = "ffffff" # hex rep
 
 def compile_lines(input_lines):
     # Strip trailing newlines.  Strip all spaces. 

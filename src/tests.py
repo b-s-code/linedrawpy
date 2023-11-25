@@ -70,7 +70,6 @@ class TestRegressions(unittest.TestCase):
         with open(f"{self.test_data_dir}/../../examples/output/edges.ppm", "r") as edges_ppm:
             edges_ppm_expected = edges_ppm.readlines()
 
-        # TODO : this fails due to background color difference.
         self.assertTrue(edges_ppm_actual == edges_ppm_expected)
     
     def test_triangle_file(self):
