@@ -14,14 +14,19 @@ class TestRegressions(unittest.TestCase):
     I.e. we're not testing any other image conversion program.
     So we just test the output of linedrawpy.
     """
-    
+   
+    # Path to directory where this test program resides..
     test_script_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
 
     # Persisent test data.
     test_data_per_dir = f"{test_script_dir}/test_data_persistent"
-    # Temporaty test data.
-    test_data_tmp_dir = f"{test_script_dir}/test_data_temp"
 
+    # Temporary test data.
+    test_data_tmp_dir = f"{test_script_dir}/test_data_temp"
+   
+    # Path to the linedrawpy program.
+    linedrawpy = f"{test_script_dir}/../src/main.py"
+    
     @classmethod
     def setUpClass(cls):
         print(f"Creating temp test data dir: {cls.test_data_tmp_dir}")
@@ -59,7 +64,7 @@ class TestRegressions(unittest.TestCase):
                 capture_output=True)
         with open(f"{self.test_data_tmp_dir}/edges.ppm", "w") as edges_ppm:
            subprocess.run(
-                    [f"{self.test_script_dir}/../src/main.py"],
+                    [self.linedrawpy],
                     input=edges.stdout,
                     stdout=edges_ppm)
 
@@ -84,7 +89,7 @@ class TestRegressions(unittest.TestCase):
         # Closer to actual usage scenario.
         edges = subprocess.run(
                 [
-                    f"{self.test_script_dir}/../src/main.py",
+                    self.linedrawpy,
                     f"{self.test_script_dir}/../examples/edges.txt"
                 ],
                 capture_output=True)
@@ -130,7 +135,7 @@ class TestRegressions(unittest.TestCase):
                 capture_output=True)
         with open(f"{self.test_data_tmp_dir}/layered_edges.ppm", "w") as layered_edges_ppm:
            subprocess.run(
-                    [f"{self.test_script_dir}/../src/main.py"],
+                    [self.linedrawpy],
                     input=layered_edges.stdout,
                     stdout=layered_edges_ppm)
 
