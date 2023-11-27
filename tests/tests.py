@@ -59,7 +59,7 @@ class TestRegressions(unittest.TestCase):
         edges = subprocess.run(
                 [
                     "cat",
-                    f"{self.test_script_dir}/../examples/edges.txt"
+                    f"{self.test_data_per_dir}/edges.txt"
                 ],
                 capture_output=True)
         with open(f"{self.test_data_tmp_dir}/edges.ppm", "w") as edges_ppm:
@@ -90,7 +90,7 @@ class TestRegressions(unittest.TestCase):
         edges = subprocess.run(
                 [
                     self.linedrawpy,
-                    f"{self.test_script_dir}/../examples/edges.txt"
+                    f"{self.test_data_per_dir}/edges.txt"
                 ],
                 capture_output=True)
         with open(f"{self.test_data_tmp_dir}/edges.ppm", "w") as edges_ppm:
@@ -108,7 +108,7 @@ class TestRegressions(unittest.TestCase):
             edges_ppm_actual = edges_ppm.readlines()
         with open(f"{self.test_data_per_dir}/edges.ppm", "r") as edges_ppm:
             edges_ppm_expected = edges_ppm.readlines()
-
+        
         self.assertTrue(edges_ppm_actual == edges_ppm_expected)
     
     def test_concentric_flakes(self):
@@ -130,7 +130,7 @@ class TestRegressions(unittest.TestCase):
         layered_edges = subprocess.run(
                 [
                     "cat",
-                    f"{self.test_script_dir}/../examples/layered_edges.txt"
+                    f"{self.test_data_per_dir}/layered_edges.txt"
                 ],
                 capture_output=True)
         with open(f"{self.test_data_tmp_dir}/layered_edges.ppm", "w") as layered_edges_ppm:
