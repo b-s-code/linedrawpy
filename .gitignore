@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 *.swp
+test_data_temp/
