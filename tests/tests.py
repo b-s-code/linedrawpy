@@ -3,9 +3,9 @@ import os
 import sys
 import subprocess
 import glob
+
+# The whole program is small enough we treat it as a unit.
 import unittest
-import linedrawpy
-import main
 
 class TestRegressions(unittest.TestCase):
     """
@@ -14,18 +14,27 @@ class TestRegressions(unittest.TestCase):
     I.e. we're not testing any other image conversion program.
     So we just test the output of linedrawpy.
     """
-    
+   
+    # Path to directory where this test program resides..
     test_script_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
-    test_data_dir = f"{test_script_dir}/test_data"
 
+    # Persisent test data.
+    test_data_per_dir = f"{test_script_dir}/test_data_persistent"
+
+    # Temporary test data.
+    test_data_tmp_dir = f"{test_script_dir}/test_data_temp"
+   
+    # Path to the linedrawpy program.
+    linedrawpy = f"{test_script_dir}/../src/main.py"
+    
     @classmethod
     def setUpClass(cls):
-        print(f"Creating temp test data dir: {cls.test_data_dir}")
-        subprocess.run(["mkdir", cls.test_data_dir])
+        print(f"Creating temp test data dir: {cls.test_data_tmp_dir}")
+        subprocess.run(["mkdir", cls.test_data_tmp_dir])
     
     @classmethod
     def tearDownClass(cls):
-        print(f"Removing temp test data dir: {cls.test_data_dir}")
+        print(f"Removing temp test data dir: {cls.test_data_tmp_dir}")
 
         # Prefer this to rm -rf, given there will be no subdirs
         # to deal with.
@@ -34,11 +43,11 @@ class TestRegressions(unittest.TestCase):
         # a subprocess.run(["rm", f"{cls.test_data_dir}/*"])
         # since the subprocess module does not use a shell by
         # default.  We use glob to solve this.
-        files_to_remove = glob.glob(f"{cls.test_data_dir}/*")
+        files_to_remove = glob.glob(f"{cls.test_data_tmp_dir}/*")
         for deletee in files_to_remove:
             subprocess.run(["rm", deletee])
 
-        subprocess.run(["rmdir", cls.test_data_dir])
+        subprocess.run(["rmdir", cls.test_data_tmp_dir])
 
     def test_triangle_pipe(self):
         """
@@ -53,9 +62,9 @@ class TestRegressions(unittest.TestCase):
                     f"{self.test_script_dir}/../examples/edges.txt"
                 ],
                 capture_output=True)
-        with open(f"{self.test_data_dir}/edges.ppm", "w") as edges_ppm:
+        with open(f"{self.test_data_tmp_dir}/edges.ppm", "w") as edges_ppm:
            subprocess.run(
-                    [f"{self.test_script_dir}/main.py"],
+                    [self.linedrawpy],
                     input=edges.stdout,
                     stdout=edges_ppm)
 
@@ -64,9 +73,9 @@ class TestRegressions(unittest.TestCase):
         # There are definitely faster ways to do this.
         edges_ppm_expected = []
         edges_ppm_actual = []
-        with open(f"{self.test_data_dir}/edges.ppm", "r") as edges_ppm:
+        with open(f"{self.test_data_tmp_dir}/edges.ppm", "r") as edges_ppm:
             edges_ppm_actual = edges_ppm.readlines()
-        with open(f"{self.test_data_dir}/../../examples/output/edges.ppm", "r") as edges_ppm:
+        with open(f"{self.test_data_per_dir}/edges.ppm", "r") as edges_ppm:
             edges_ppm_expected = edges_ppm.readlines()
 
         self.assertTrue(edges_ppm_actual == edges_ppm_expected)
@@ -80,11 +89,11 @@ class TestRegressions(unittest.TestCase):
         # Closer to actual usage scenario.
         edges = subprocess.run(
                 [
-                    f"{self.test_script_dir}/main.py",
+                    self.linedrawpy,
                     f"{self.test_script_dir}/../examples/edges.txt"
                 ],
                 capture_output=True)
-        with open(f"{self.test_data_dir}/edges.ppm", "w") as edges_ppm:
+        with open(f"{self.test_data_tmp_dir}/edges.ppm", "w") as edges_ppm:
            subprocess.run(
                     ["cat"],
                     input=edges.stdout,
@@ -95,9 +104,9 @@ class TestRegressions(unittest.TestCase):
         # There are definitely faster ways to do this.
         edges_ppm_expected = []
         edges_ppm_actual = []
-        with open(f"{self.test_data_dir}/edges.ppm", "r") as edges_ppm:
+        with open(f"{self.test_data_tmp_dir}/edges.ppm", "r") as edges_ppm:
             edges_ppm_actual = edges_ppm.readlines()
-        with open(f"{self.test_data_dir}/../../examples/output/edges.ppm", "r") as edges_ppm:
+        with open(f"{self.test_data_per_dir}/edges.ppm", "r") as edges_ppm:
             edges_ppm_expected = edges_ppm.readlines()
 
         self.assertTrue(edges_ppm_actual == edges_ppm_expected)
@@ -124,9 +133,9 @@ class TestRegressions(unittest.TestCase):
                     f"{self.test_script_dir}/../examples/layered_edges.txt"
                 ],
                 capture_output=True)
-        with open(f"{self.test_data_dir}/layered_edges.ppm", "w") as layered_edges_ppm:
+        with open(f"{self.test_data_tmp_dir}/layered_edges.ppm", "w") as layered_edges_ppm:
            subprocess.run(
-                    [f"{self.test_script_dir}/main.py"],
+                    [self.linedrawpy],
                     input=layered_edges.stdout,
                     stdout=layered_edges_ppm)
 
@@ -135,13 +144,12 @@ class TestRegressions(unittest.TestCase):
         # There are definitely faster ways to do this.
         layered_edges_ppm_expected = []
         layered_edges_ppm_actual = []
-        with open(f"{self.test_data_dir}/layered_edges.ppm", "r") as layered_edges_ppm:
+        with open(f"{self.test_data_tmp_dir}/layered_edges.ppm", "r") as layered_edges_ppm:
             layered_edges_ppm_actual = layered_edges_ppm.readlines()
-        with open(f"{self.test_data_dir}/../../examples/output/layered_edges.ppm", "r") as layered_edges_ppm:
+        with open(f"{self.test_data_per_dir}/layered_edges.ppm", "r") as layered_edges_ppm:
             layered_edges_ppm_expected = layered_edges_ppm.readlines()
 
         self.assertTrue(layered_edges_ppm_actual == layered_edges_ppm_expected)
         
-
 if __name__ == "__main__":
     unittest.main()
