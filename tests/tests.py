@@ -116,8 +116,31 @@ class TestRegressions(unittest.TestCase):
         Tests linedrawpy can produce an image from a
         nontrivial edge set.
         """
-        # TODO
-        pass
+        # Run pylinedraw _without_ importing its code here. 
+        # Closer to actual usage scenario.
+        concentric_flakes_edges = subprocess.run(
+                [
+                    self.linedrawpy,
+                    f"{self.test_data_per_dir}/edges_concentric_flakes.txt"
+                ],
+                capture_output=True)
+        with open(f"{self.test_data_tmp_dir}/concentric_flakes.ppm", "w") as concentric_flakes_ppm:
+           subprocess.run(
+                    ["cat"],
+                    input=concentric_flakes_edges.stdout,
+                    stdout=concentric_flakes_ppm)
+
+        # Output has been produced, so now we can
+        # just compare it to expected output.
+        # There are definitely faster ways to do this.
+        concentric_flakes_ppm_expected = []
+        concentric_flakes_ppm_actual = []
+        with open(f"{self.test_data_tmp_dir}/concentric_flakes.ppm", "r") as concentric_flakes_ppm:
+            concentric_flakes_ppm_actual = concentric_flakes_ppm.readlines()
+        with open(f"{self.test_data_per_dir}/concentric_flakes.ppm", "r") as concentric_flakes_ppm:
+            concentric_flakes_ppm_expected = concentric_flakes_ppm.readlines()
+        
+        self.assertTrue(concentric_flakes_ppm_actual == concentric_flakes_ppm_expected)
 
     def test_layering(self):
         """
