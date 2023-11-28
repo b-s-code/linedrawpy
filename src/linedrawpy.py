@@ -1,3 +1,20 @@
+def is_bgcolour_valid(bgcolour: str) -> bool:
+    """
+    Returns True if bgcolour is a valid hex
+    representation of a colour.
+    """
+    # TODO : Write a test for this.
+    # TODO : Use in main.
+    # TODO : Consider making bgcolour a command line option,
+    # s.t. "ffffff" is used if option not specified.
+    if len(bgcolour) != 6:
+        return False
+    valid_chars = "abcdefABCDEF0123456789"
+    for char in bgcolour:
+        if char not in valid_chars:
+            return False
+    return True
+
 def hex_str_colour_to_dec_str_colour(hex_str: str) -> str:
     """
     Takes 6 hex digits.
