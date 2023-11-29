@@ -23,3 +23,9 @@ given the following input file `edges.txt`
 ## Output format
 
 The output of LineDrawPy is in Portable PixMap format.  To view this image format, use either an image viewer like `feh` which supports PPM, or convert the image to another format.
+
+# Development
+
+## Running tests
+
+`make test`
