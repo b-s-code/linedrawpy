@@ -8,7 +8,7 @@ import linedrawpy
 padding = 10 # pixels
 bgcolour = "ffffff" # hex rep
 
-def compile_lines(input_lines):
+def compile_lines(input_lines, bgcolour):
     # Strip trailing newlines.  Strip all spaces. 
     # TODO : consider supporting parentheses in input, stripping them here.
     lines = [line.replace(' ', '').rstrip() for line in input_lines]
@@ -52,7 +52,10 @@ def compile_lines(input_lines):
 
 if __name__ == "__main__":
     # Check validity of params.
-    # TODO : only need to check bgcolour.
+    linedrawpy.is_hex_colour_str_valid(bgcolour)
+
+    # Get input from file or standard input.
     input_lines = fileinput.input()
-    # Get input from file or standard input
-    compile_lines(input_lines)
+    
+    # Produce output.
+    compile_lines(input_lines, bgcolour)

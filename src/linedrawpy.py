@@ -3,7 +3,6 @@ def is_hex_colour_str_valid(bgcolour: str) -> bool:
     Returns True if bgcolour is a valid hex
     representation of a colour.
     """
-    # TODO : Use in main.
     # TODO : Consider making bgcolour a command line option,
     # s.t. "ffffff" is used if option not specified.
     if len(bgcolour) != 6:
